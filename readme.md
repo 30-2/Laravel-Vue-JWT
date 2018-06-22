@@ -64,8 +64,9 @@ composer require tymon/jwt-auth
 ]
 ```
 - Add aliases
-
+```php
 'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class
+```
 
 ## laravel
 
