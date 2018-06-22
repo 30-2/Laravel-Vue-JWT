@@ -50,7 +50,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
 
-## laravel + jwt 
+## Json Web Token with Laravel 
 ## jwt install
 composer require tymon/jwt-auth
 
@@ -71,6 +71,7 @@ composer require tymon/jwt-auth
 
 - run php artisan make:auth
 - run php artisan make:model Client -m
+```php
 public function up()
 {
     Schema::create('clients', function (Blueprint $table) {
@@ -81,8 +82,10 @@ public function up()
         $table->timestamps();
     });
 }
+```
 - run php artisan migrate
 - ClientFactory.php
+```php
 $factory->define(App\Client::class, function (Faker\Generator $faker) {
     static $password;
 
@@ -92,17 +95,20 @@ $factory->define(App\Client::class, function (Faker\Generator $faker) {
         'telephone' => $faker->phoneNumber
     ];
 });
+```
 - seeds/DatabaseSeeder.php
 factory(App\Client::class, 50)->create();
 - run php artisan db:seed
 
 ## Setting Up JWT
 - run php artisan make:controller FrontEndUserController
-- in FrontEndUserController
+- in 
+```php
 public function signUp(Request $request)
 {
     $user = User::create(['email' => $request->email, 'password' => bcrypt($request->password)]);
 }
+```
 - In our routes/api.php
 Route::post('/signup', 'FrontEndUserController@signUp');
 Route::post('/signin', 'FrontEndUserController@signIn');
@@ -111,6 +117,7 @@ Route::post('/signin', 'FrontEndUserController@signIn');
  [project_path]/api/signup
 
 - in FrontEndUserController
+```php
 public function signIn(Request $request)
 {
     try {
@@ -123,22 +130,26 @@ public function signIn(Request $request)
 
     return response()->json(compact('token'));
 }
-
+```
 ## Calling The API
 - run php artisan make:controller ClientController
 In ClientController
+```php
 public function index()
 {
     return Client::all();
 }
+```
 - in api.php
+```php
 Route::group(['middleware' => 'jwt.auth'], function() {
     Route::get('/clients', 'ClientController@index');
 });
-
+```
 - in app/Http/Kernel.php
+```php
 'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class
-
+```
 To remedy this, pass an authorization header, with the key of Authorization and value of Bearer [token] (copy the token you created earlier). Now run the GET call again and you should get the list of clients back as JSON. (NB. If you get a token_expired error just call the previous POST endpoint and get a new token.)
 
 
