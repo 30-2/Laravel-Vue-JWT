@@ -50,22 +50,24 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
 
-##laravel + jwt 
-##jwt install
+## laravel + jwt 
+## jwt install
 composer require tymon/jwt-auth
 
 - Add service provider in app.php
+```php
 'providers' => [
 
     ...
 
     Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 ]
+```
 - Add aliases
 
 'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class
 
-##laravel
+## laravel
 
 - run php artisan make:auth
 - run php artisan make:model Client -m
@@ -94,7 +96,7 @@ $factory->define(App\Client::class, function (Faker\Generator $faker) {
 factory(App\Client::class, 50)->create();
 - run php artisan db:seed
 
-##Setting Up JWT
+## Setting Up JWT
 - run php artisan make:controller FrontEndUserController
 - in FrontEndUserController
 public function signUp(Request $request)
