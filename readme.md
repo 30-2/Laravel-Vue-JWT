@@ -67,7 +67,10 @@ composer require tymon/jwt-auth
 ```php
 'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class
 ```
-
+- Publish the cofig
+```
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+```
 ## laravel
 
 - run php artisan make:auth
